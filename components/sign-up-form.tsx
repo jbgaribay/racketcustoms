@@ -23,6 +23,9 @@ export function SignUpForm({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [repeatPassword, setRepeatPassword] = useState("");
+  const [birthday, setBirthday] = useState("");
+  const [ustaRating, setUstaRating] = useState("");
+  const [utrRating, setUtrRating] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -45,6 +48,11 @@ export function SignUpForm({
         password,
         options: {
           emailRedirectTo: `${window.location.origin}/protected`,
+          data: {
+            birthday: birthday || null,
+            usta_rating: ustaRating || null,
+            utr_rating: utrRating ? Number(utrRating) : null,
+          },
         },
       });
       if (error) throw error;
@@ -99,6 +107,38 @@ export function SignUpForm({
                   required
                   value={repeatPassword}
                   onChange={(e) => setRepeatPassword(e.target.value)}
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="birthday">Birthday</Label>
+                <Input
+                  id="birthday"
+                  type="date"
+                  value={birthday}
+                  onChange={(e) => setBirthday(e.target.value)}
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="usta-rating">USTA Rating</Label>
+                <Input
+                  id="usta-rating"
+                  type="text"
+                  placeholder="e.g. 4.5"
+                  value={ustaRating}
+                  onChange={(e) => setUstaRating(e.target.value)}
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="utr-rating">UTR Rating</Label>
+                <Input
+                  id="utr-rating"
+                  type="number"
+                  step="0.01"
+                  min="1"
+                  max="16"
+                  placeholder="e.g. 8.25"
+                  value={utrRating}
+                  onChange={(e) => setUtrRating(e.target.value)}
                 />
               </div>
               {error && <p className="text-sm text-red-500">{error}</p>}
